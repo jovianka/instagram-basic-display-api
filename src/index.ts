@@ -21,6 +21,7 @@ const server = new ApolloServer({
   await server.start();
   server.applyMiddleware({app});
   console.log("Apollo server has started!");
+
 })();
 
 app.get("/", (req: any, res: any) => {

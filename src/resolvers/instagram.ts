@@ -50,7 +50,7 @@ async function getUserProfileData() {
   const params=
   `\
 fields=id,username\
-&access_token=${process.env.LONG_LIVED_AT}
+&access_token=${process.env.LONG_LIVED_AT}\
   `;
 
   const response: Response = await fetch(`https://graph.instagram.com/me?${params}`);
@@ -60,4 +60,18 @@ fields=id,username\
   return response.ok ? data : new UserInputError(data.error_message);
 };
 
-module.exports = { getShortLivedAccessToken, getLongLivedAccessToken, getUserProfileData }
+async function getUserMediaData() {
+  const params=
+  `\
+fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,username,children\
+&access_token=${process.env.LONG_LIVED_AT}\
+  `
+
+  const response: Response = await fetch(`https://graph.instagram.com/me/media?${params}`);
+
+  const data: any = await response.json();
+
+  return response.ok ? data : new UserInputError(data.error_message);
+}
+
+module.exports = { getShortLivedAccessToken, getLongLivedAccessToken, getUserProfileData, getUserMediaData }
