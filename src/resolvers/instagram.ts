@@ -1,4 +1,4 @@
-export {}
+export {};
 
 const { UserInputError } = require("apollo-server-express");
 require("dotenv").config();
@@ -18,7 +18,7 @@ async function getShortLivedAccessToken() {
     formData.append(param, value);
   }
 
-  let response: Response = await fetch(`https://api.instagram.com/oauth/access_token`, {
+  const response: Response = await fetch(`https://api.instagram.com/oauth/access_token`, {
     method: "POST",
     headers: {
       Host: "api.instagram.com"
@@ -26,10 +26,10 @@ async function getShortLivedAccessToken() {
     body: formData
   });
   
-  let data = await response.json();
+  const data = await response.json();
 
-  return response.ok ? data : new UserInputError(data.error_message)
-}
+  return response.ok ? data : new UserInputError(data.error_message);
+};
 
 async function getLongLivedAccessToken() {
   const params =
@@ -39,11 +39,25 @@ grant_type=ig_exchange_token\
 &access_token=${process.env.SHORT_LIVED_AT}\
   `;
 
-  let response: Response = await fetch(`https://graph.instagram.com/access_token?${params}`)
+  const response: Response = await fetch(`https://graph.instagram.com/access_token?${params}`);
 
-  let data = await response.json();
+  const data = await response.json();
 
   return response.ok? data : new UserInputError(data.error_message);
-}
+};
 
-module.exports = { getShortLivedAccessToken, getLongLivedAccessToken }
+async function getUserProfileData() {
+  const params=
+  `\
+fields=id,username\
+&access_token=${process.env.LONG_LIVED_AT}
+  `;
+
+  const response: Response = await fetch(`https://graph.instagram.com/me?${params}`);
+
+  const data: any = await response.json();
+
+  return response.ok ? data : new UserInputError(data.error_message);
+};
+
+module.exports = { getShortLivedAccessToken, getLongLivedAccessToken, getUserProfileData }

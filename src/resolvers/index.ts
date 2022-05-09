@@ -1,10 +1,11 @@
 export {}
 
-const { getLongLivedAccessToken, getShortLivedAccessToken } = require("./instagram");
+const { getLongLivedAccessToken, getShortLivedAccessToken, getUserProfileData } = require("./instagram");
 const Query = {
   Query: {
     getShortLivedAccessToken: () => getShortLivedAccessToken(),
-    getLongLivedAccessToken: () => getLongLivedAccessToken()
+    getLongLivedAccessToken: () => getLongLivedAccessToken(),
+    getUserProfileData: () => getUserProfileData(),
   }
 }
 

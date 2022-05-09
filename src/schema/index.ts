@@ -16,11 +16,20 @@ const LongLivedAccessToken = gql`
   }
 `
 
+const UserProfileData = gql`
+  type UserProfileData {
+    id: String!
+    username: String!
+  }
+`
+
 const Query = gql`
   type Query {
     getShortLivedAccessToken: ShortLivedAccessToken
     getLongLivedAccessToken: LongLivedAccessToken
+    getUserProfileData: UserProfileData
+    # getUserMediaData: [UserMediaData]
   }
 `
 
-module.exports = [ ShortLivedAccessToken, LongLivedAccessToken, Query ]
+module.exports = [ ShortLivedAccessToken, LongLivedAccessToken, UserProfileData, Query ]
